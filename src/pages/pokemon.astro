@@ -1,0 +1,39 @@
+---
+// Definimos el rango de los Pokémon de la segunda generación (152 a 251)
+const startId = 152;
+const endId = 251;
+const pokeApiUrl = `https://pokeapi.co/api/v2/pokemon?limit=${endId - startId + 1}&offset=${startId - 1}`;
+
+const response = await fetch(pokeApiUrl);
+const data = await response.json();
+const pokemons = data.results;
+---
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokémon Gen 2</title>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="container mx-auto p-5">
+    <h1 class="text-4xl font-bold text-center mb-6">Pokémon de la Segunda Generación</h1>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      {pokemons.map((pokemon, index) => {
+        const pokemonId = startId + index;
+        return (
+          <div key={pokemonId} class="bg-gray-800 p-4 rounded-xl shadow-md text-center">
+            <img 
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`} 
+              alt={pokemon.name} 
+              class="w-24 h-24 mx-auto"
+            />
+            <h2 class="text-lg font-semibold capitalize">{pokemon.name}</h2>
+            <p class="text-sm text-gray-400"># {pokemonId}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</body>
+</html>
